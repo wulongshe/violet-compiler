@@ -1,30 +1,30 @@
 import { expect, test } from 'vitest'
-import { ASTNodeTypes, Program } from '../src/parser'
+import { NodeTypes, Program } from '../src/parser'
 import { traverser, Visitor } from '../src/traverser'
 
 test('traverser', () => {
   const ast: Program = {
-    type: ASTNodeTypes.Program,
+    type: NodeTypes.Program,
     body: [{
-      type: ASTNodeTypes.CallExpression,
+      type: NodeTypes.CallExpression,
       name: 'add',
       params: [{
-        type: ASTNodeTypes.NumberLiteral,
+        type: NodeTypes.NumberLiteral,
         value: '2'
       }, {
-        type: ASTNodeTypes.CallExpression,
+        type: NodeTypes.CallExpression,
         name: 'subtract',
         params: [{
-          type: ASTNodeTypes.NumberLiteral,
+          type: NodeTypes.NumberLiteral,
           value: '4'
         }, {
-          type: ASTNodeTypes.NumberLiteral,
+          type: NodeTypes.NumberLiteral,
           value: '2'
         }]
       }]
     }]
   }
-  const callArr: [string, ASTNodeTypes, ASTNodeTypes | undefined][] = []
+  const callArr: [string, NodeTypes, NodeTypes | undefined][] = []
   const visitor: Visitor = {
     Program: {
       enter(node, parent) {
@@ -53,17 +53,17 @@ test('traverser', () => {
   }
   traverser(ast, visitor)
   expect(callArr).toEqual([
-    ['Program-enter', ASTNodeTypes.Program, undefined],
-    ['CallExpression-enter', ASTNodeTypes.CallExpression, ASTNodeTypes.Program],
-    ['NumberLiteral-enter', ASTNodeTypes.NumberLiteral, ASTNodeTypes.CallExpression],
-    ['NumberLiteral-exit', ASTNodeTypes.NumberLiteral, ASTNodeTypes.CallExpression],
-    ['CallExpression-enter', ASTNodeTypes.CallExpression, ASTNodeTypes.CallExpression],
-    ['NumberLiteral-enter', ASTNodeTypes.NumberLiteral, ASTNodeTypes.CallExpression],
-    ['NumberLiteral-exit', ASTNodeTypes.NumberLiteral, ASTNodeTypes.CallExpression],
-    ['NumberLiteral-enter', ASTNodeTypes.NumberLiteral, ASTNodeTypes.CallExpression],
-    ['NumberLiteral-exit', ASTNodeTypes.NumberLiteral, ASTNodeTypes.CallExpression],
-    ['CallExpression-exit', ASTNodeTypes.CallExpression, ASTNodeTypes.CallExpression],
-    ['CallExpression-exit', ASTNodeTypes.CallExpression, ASTNodeTypes.Program],
-    ['Program-exit', ASTNodeTypes.Program, undefined],
+    ['Program-enter', NodeTypes.Program, undefined],
+    ['CallExpression-enter', NodeTypes.CallExpression, NodeTypes.Program],
+    ['NumberLiteral-enter', NodeTypes.NumberLiteral, NodeTypes.CallExpression],
+    ['NumberLiteral-exit', NodeTypes.NumberLiteral, NodeTypes.CallExpression],
+    ['CallExpression-enter', NodeTypes.CallExpression, NodeTypes.CallExpression],
+    ['NumberLiteral-enter', NodeTypes.NumberLiteral, NodeTypes.CallExpression],
+    ['NumberLiteral-exit', NodeTypes.NumberLiteral, NodeTypes.CallExpression],
+    ['NumberLiteral-enter', NodeTypes.NumberLiteral, NodeTypes.CallExpression],
+    ['NumberLiteral-exit', NodeTypes.NumberLiteral, NodeTypes.CallExpression],
+    ['CallExpression-exit', NodeTypes.CallExpression, NodeTypes.CallExpression],
+    ['CallExpression-exit', NodeTypes.CallExpression, NodeTypes.Program],
+    ['Program-exit', NodeTypes.Program, undefined],
   ])
 })

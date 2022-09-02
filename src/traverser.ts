@@ -1,4 +1,4 @@
-import { ASTNodeTypes, Program, ChildNode, ParentNode } from './parser'
+import { NodeTypes, Program, ChildNode, ParentNode } from './parser'
 
 export type MethodFn = (node: ChildNode | Program, parent?: ParentNode) => void
 
@@ -7,7 +7,7 @@ export interface VisitorOption {
   exit?: MethodFn
 }
 export type Visitor = {
-  [key in keyof typeof ASTNodeTypes]?: VisitorOption
+  [key in keyof typeof NodeTypes]?: VisitorOption
 }
 
 export function traverseArray(array: ChildNode[], parent: ParentNode, visitor: Visitor) {
@@ -17,17 +17,17 @@ export function traverseArray(array: ChildNode[], parent: ParentNode, visitor: V
 }
 
 export function traverseNode(node: ChildNode | Program, parent: ParentNode, visitor: Visitor) {
-  const visitorObj = visitor[ASTNodeTypes[node.type]]
+  const visitorObj = visitor[NodeTypes[node.type]]
   visitorObj?.enter?.(node, parent)
   switch (node.type) {
-    case ASTNodeTypes.NumberLiteral:
+    case NodeTypes.NumberLiteral:
       break
-    case ASTNodeTypes.StringLiteral:
+    case NodeTypes.StringLiteral:
       break
-    case ASTNodeTypes.CallExpression:
+    case NodeTypes.CallExpression:
       traverseArray(node.params, node, visitor)
       break
-    case ASTNodeTypes.Program:
+    case NodeTypes.Program:
       traverseArray(node.body, node, visitor)
       break
   }

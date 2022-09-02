@@ -1,6 +1,8 @@
 {
-  "name": "tiny-compiler",
+  "name": "violet-compiler",
   "type": "module",
+  "main": "src/index.ts",
+  "module": "src/index.ts",
   "scripts": {
     "test": "vitest",
     "test:run": "vitest run",

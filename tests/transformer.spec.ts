@@ -1,24 +1,24 @@
 import { expect, test } from 'vitest'
-import { ASTNodeTypes, Program } from '../src/parser'
+import { NodeTypes, Program } from '../src/parser'
 import { TransformedProgram, transformer } from '../src/transformer'
 
 test('transformer', () => {
   const originalAST: Program = {
-    type: ASTNodeTypes.Program,
+    type: NodeTypes.Program,
     body: [{
-      type: ASTNodeTypes.CallExpression,
+      type: NodeTypes.CallExpression,
       name: 'add',
       params: [{
-        type: ASTNodeTypes.NumberLiteral,
+        type: NodeTypes.NumberLiteral,
         value: '2'
       }, {
-        type: ASTNodeTypes.CallExpression,
+        type: NodeTypes.CallExpression,
         name: 'subtract',
         params: [{
-          type: ASTNodeTypes.NumberLiteral,
+          type: NodeTypes.NumberLiteral,
           value: '4'
         }, {
-          type: ASTNodeTypes.NumberLiteral,
+          type: NodeTypes.NumberLiteral,
           value: '2'
         }]
       }]
@@ -26,29 +26,29 @@ test('transformer', () => {
   }
 
   const transformedAST: TransformedProgram = {
-    type: ASTNodeTypes.Program,
+    type: NodeTypes.Program,
     body: [{
-      type: ASTNodeTypes.CallExpressionStatement,
+      type: NodeTypes.CallExpressionStatement,
       expression: {
-        type: ASTNodeTypes.CallExpression,
+        type: NodeTypes.CallExpression,
         callee: {
-          type: ASTNodeTypes.Identifier,
+          type: NodeTypes.Identifier,
           name: 'add'
         },
         arguments: [{
-          type: ASTNodeTypes.NumberLiteral,
+          type: NodeTypes.NumberLiteral,
           value: '2',
         }, {
-          type: ASTNodeTypes.CallExpression,
+          type: NodeTypes.CallExpression,
           callee: {
-            type: ASTNodeTypes.Identifier,
+            type: NodeTypes.Identifier,
             name: 'subtract',
           },
           arguments: [{
-            type: ASTNodeTypes.NumberLiteral,
+            type: NodeTypes.NumberLiteral,
             value: '4'
           }, {
-            type: ASTNodeTypes.NumberLiteral,
+            type: NodeTypes.NumberLiteral,
             value: '2'
           }]
         }]

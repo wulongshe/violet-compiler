@@ -1,19 +1,19 @@
-import { ASTNodeTypes } from './parser'
+import { NodeTypes } from './parser'
 import { TransformedNode } from './transformer'
 
 export function generator(node: TransformedNode) {
   switch (node.type) {
-    case ASTNodeTypes.Program:
+    case NodeTypes.Program:
       return node.body.map(generator).join('\n')
-    case ASTNodeTypes.CallExpressionStatement:
+    case NodeTypes.CallExpressionStatement:
       return generator(node.expression) + ';'
-    case ASTNodeTypes.CallExpression:
+    case NodeTypes.CallExpression:
       return `${generator(node.callee)}(${node.arguments.map(generator).join(', ')})`
-    case ASTNodeTypes.Identifier:
+    case NodeTypes.Identifier:
       return node.name
-    case ASTNodeTypes.NumberLiteral:
+    case NodeTypes.NumberLiteral:
       return node.value
-    case ASTNodeTypes.StringLiteral:
+    case NodeTypes.StringLiteral:
       return `"${node.value}"`
     default:
       throw new TypeError((<any>node).type)

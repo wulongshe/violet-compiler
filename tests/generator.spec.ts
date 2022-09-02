@@ -1,33 +1,33 @@
 import { expect, test } from 'vitest'
 import { generator } from '../src/generator'
-import { ASTNodeTypes } from '../src/parser'
+import { NodeTypes } from '../src/parser'
 import { TransformedProgram } from '../src/transformer'
 
 test('generator', () => {
   const transformedAST: TransformedProgram = {
-    type: ASTNodeTypes.Program,
+    type: NodeTypes.Program,
     body: [{
-      type: ASTNodeTypes.CallExpressionStatement,
+      type: NodeTypes.CallExpressionStatement,
       expression: {
-        type: ASTNodeTypes.CallExpression,
+        type: NodeTypes.CallExpression,
         callee: {
-          type: ASTNodeTypes.Identifier,
+          type: NodeTypes.Identifier,
           name: 'add'
         },
         arguments: [{
-          type: ASTNodeTypes.NumberLiteral,
+          type: NodeTypes.NumberLiteral,
           value: '2',
         }, {
-          type: ASTNodeTypes.CallExpression,
+          type: NodeTypes.CallExpression,
           callee: {
-            type: ASTNodeTypes.Identifier,
+            type: NodeTypes.Identifier,
             name: 'subtract',
           },
           arguments: [{
-            type: ASTNodeTypes.NumberLiteral,
+            type: NodeTypes.NumberLiteral,
             value: '4'
           }, {
-            type: ASTNodeTypes.NumberLiteral,
+            type: NodeTypes.NumberLiteral,
             value: '2'
           }]
         }]
@@ -40,29 +40,29 @@ test('generator', () => {
 
 test('repeat and add', () => {
   const transformedAST: TransformedProgram = {
-    type: ASTNodeTypes.Program,
+    type: NodeTypes.Program,
     body: [{
-      type: ASTNodeTypes.CallExpressionStatement,
+      type: NodeTypes.CallExpressionStatement,
       expression: {
-        type: ASTNodeTypes.CallExpression,
+        type: NodeTypes.CallExpression,
         callee: {
-          type: ASTNodeTypes.Identifier,
+          type: NodeTypes.Identifier,
           name: 'repeat'
         },
         arguments: [{
-          type: ASTNodeTypes.StringLiteral,
+          type: NodeTypes.StringLiteral,
           value: 'abcd',
         }, {
-          type: ASTNodeTypes.CallExpression,
+          type: NodeTypes.CallExpression,
           callee: {
-            type: ASTNodeTypes.Identifier,
+            type: NodeTypes.Identifier,
             name: 'add',
           },
           arguments: [{
-            type: ASTNodeTypes.NumberLiteral,
+            type: NodeTypes.NumberLiteral,
             value: '1'
           }, {
-            type: ASTNodeTypes.NumberLiteral,
+            type: NodeTypes.NumberLiteral,
             value: '2'
           }]
         }]

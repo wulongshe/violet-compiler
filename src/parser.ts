@@ -1,7 +1,7 @@
 import { Token, TokenTypes } from './tokenizer'
 import { TransformedChildNode } from './transformer'
 
-export enum ASTNodeTypes {
+export enum NodeTypes {
   Program = 'Program',
   Identifier = 'Identifier',
   NumberLiteral = 'NumberLiteral',
@@ -10,24 +10,24 @@ export enum ASTNodeTypes {
   CallExpressionStatement = 'CallExpressionStatement',
 }
 export interface Node {
-  type: ASTNodeTypes
+  type: NodeTypes
 }
 export interface NumberLiteral extends Node {
-  type: ASTNodeTypes.NumberLiteral
+  type: NodeTypes.NumberLiteral
   value: string
 }
 export interface StringLiteral extends Node {
-  type: ASTNodeTypes.StringLiteral
+  type: NodeTypes.StringLiteral
   value: string
 }
 export interface CallExpression extends Node {
-  type: ASTNodeTypes.CallExpression
+  type: NodeTypes.CallExpression
   name: string
   params: ChildNode[]
   context?: TransformedChildNode[]
 }
 export interface Program extends Node {
-  type: ASTNodeTypes.Program
+  type: NodeTypes.Program
   body: ChildNode[]
   context?: TransformedChildNode[]
 }
@@ -35,16 +35,16 @@ export type ParentNode = Program | CallExpression | undefined
 export type ChildNode = StringLiteral | NumberLiteral | CallExpression
 
 export function createProgram(): Program {
-  return { type: ASTNodeTypes.Program, body: [] }
+  return { type: NodeTypes.Program, body: [] }
 }
 export function createNumberLiteral(value: string): NumberLiteral {
-  return { type: ASTNodeTypes.NumberLiteral, value }
+  return { type: NodeTypes.NumberLiteral, value }
 }
 export function createStringLiteral(value: string): StringLiteral {
-  return { type: ASTNodeTypes.StringLiteral, value }
+  return { type: NodeTypes.StringLiteral, value }
 }
 export function createCallExpression(name: string): CallExpression {
-  return { type: ASTNodeTypes.CallExpression, name, params: [] }
+  return { type: NodeTypes.CallExpression, name, params: [] }
 }
 
 export function parser(tokens: Token[]): Program {

@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import { parser, ASTNodeTypes } from '../src/parser'
+import { parser, NodeTypes } from '../src/parser'
 import { TokenTypes } from '../src/tokenizer'
 
 test('NumberLiteral', () => {
@@ -7,9 +7,9 @@ test('NumberLiteral', () => {
     { type: TokenTypes.Number, value: '2' },
   ]
   const ast = {
-    type: ASTNodeTypes.Program,
+    type: NodeTypes.Program,
     body: [{
-      type: ASTNodeTypes.NumberLiteral,
+      type: NodeTypes.NumberLiteral,
       value: '2'
     }]
   }
@@ -25,15 +25,15 @@ test('CallExpression', () => {
     { type: TokenTypes.Paren, value: ')' },
   ]
   const ast = {
-    type: ASTNodeTypes.Program,
+    type: NodeTypes.Program,
     body: [{
-      type: ASTNodeTypes.CallExpression,
+      type: NodeTypes.CallExpression,
       name: 'add',
       params: [{
-        type: ASTNodeTypes.NumberLiteral,
+        type: NodeTypes.NumberLiteral,
         value: '2'
       }, {
-        type: ASTNodeTypes.NumberLiteral,
+        type: NodeTypes.NumberLiteral,
         value: '4'
       }]
     }]
@@ -55,25 +55,25 @@ test('tow CallExpression', () => {
     { type: TokenTypes.Paren, value: ')' },
   ]
   const ast = {
-    type: ASTNodeTypes.Program,
+    type: NodeTypes.Program,
     body: [{
-      type: ASTNodeTypes.CallExpression,
+      type: NodeTypes.CallExpression,
       name: 'add',
       params: [{
-        type: ASTNodeTypes.NumberLiteral,
+        type: NodeTypes.NumberLiteral,
         value: '2'
       }, {
-        type: ASTNodeTypes.NumberLiteral,
+        type: NodeTypes.NumberLiteral,
         value: '4'
       }]
     }, {
-      type: ASTNodeTypes.CallExpression,
+      type: NodeTypes.CallExpression,
       name: 'add',
       params: [{
-        type: ASTNodeTypes.NumberLiteral,
+        type: NodeTypes.NumberLiteral,
         value: '3'
       }, {
-        type: ASTNodeTypes.NumberLiteral,
+        type: NodeTypes.NumberLiteral,
         value: '5'
       }]
     }]
@@ -94,21 +94,21 @@ test('parser', () => {
     { type: TokenTypes.Paren, value: ')' },
   ]
   const ast = {
-    type: ASTNodeTypes.Program,
+    type: NodeTypes.Program,
     body: [{
-      type: ASTNodeTypes.CallExpression,
+      type: NodeTypes.CallExpression,
       name: 'add',
       params: [{
-        type: ASTNodeTypes.NumberLiteral,
+        type: NodeTypes.NumberLiteral,
         value: '2'
       }, {
-        type: ASTNodeTypes.CallExpression,
+        type: NodeTypes.CallExpression,
         name: 'subtract',
         params: [{
-          type: ASTNodeTypes.NumberLiteral,
+          type: NodeTypes.NumberLiteral,
           value: '4'
         }, {
-          type: ASTNodeTypes.NumberLiteral,
+          type: NodeTypes.NumberLiteral,
           value: '2'
         }]
       }]

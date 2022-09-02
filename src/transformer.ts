@@ -1,21 +1,21 @@
-import { Node, ASTNodeTypes, NumberLiteral, Program, StringLiteral } from './parser'
+import { Node, NodeTypes, NumberLiteral, Program, StringLiteral } from './parser'
 import { traverser } from './traverser'
 
 export interface Identifier extends Node {
-  type: ASTNodeTypes.Identifier
+  type: NodeTypes.Identifier
   name: string
 }
 export interface TransformedCallExpressionStatement {
-  type: ASTNodeTypes.CallExpressionStatement
+  type: NodeTypes.CallExpressionStatement
   expression: TransformedCallExpression
 }
 export interface TransformedCallExpression extends Node {
-  type: ASTNodeTypes.CallExpression
+  type: NodeTypes.CallExpression
   callee: Identifier
   arguments: TransformedChildNode[]
 }
 export interface TransformedProgram extends Node {
-  type: ASTNodeTypes.Program
+  type: NodeTypes.Program
   body: TransformedChildNode[]
 }
 export type TransformedNode = TransformedProgram | TransformedCallExpressionStatement | TransformedCallExpression | StringLiteral | NumberLiteral | Identifier
@@ -24,7 +24,7 @@ export type TransformedChildNode = StringLiteral | NumberLiteral | TransformedCa
 
 export function transformer(ast: Program) {
   const newAst: TransformedProgram = {
-    type: ASTNodeTypes.Program,
+    type: NodeTypes.Program,
     body: []
   }
   ast.context = newAst.body
@@ -32,19 +32,19 @@ export function transformer(ast: Program) {
   traverser(ast, {
     CallExpression: {
       enter(node, parent) {
-        if (node.type !== ASTNodeTypes.CallExpression) return
+        if (node.type !== NodeTypes.CallExpression) return
         let expression: TransformedChildNode = {
-          type: ASTNodeTypes.CallExpression,
+          type: NodeTypes.CallExpression,
           callee: {
-            type: ASTNodeTypes.Identifier,
+            type: NodeTypes.Identifier,
             name: node.name
           },
           arguments: []
         }
         node.context = expression.arguments
-        if (parent?.type !== ASTNodeTypes.CallExpression) {
+        if (parent?.type !== NodeTypes.CallExpression) {
           expression = {
-            type: ASTNodeTypes.CallExpressionStatement,
+            type: NodeTypes.CallExpressionStatement,
             expression
           }
         }
@@ -53,18 +53,18 @@ export function transformer(ast: Program) {
     },
     NumberLiteral: {
       enter(node, parent) {
-        if (node.type !== ASTNodeTypes.NumberLiteral) return
+        if (node.type !== NodeTypes.NumberLiteral) return
         parent?.context?.push({
-          type: ASTNodeTypes.NumberLiteral,
+          type: NodeTypes.NumberLiteral,
           value: node.value
         })
       }
     },
     StringLiteral: {
       enter(node, parent) {
-        if (node.type !== ASTNodeTypes.StringLiteral) return
+        if (node.type !== NodeTypes.StringLiteral) return
         parent?.context?.push({
-          type: ASTNodeTypes.StringLiteral,
+          type: NodeTypes.StringLiteral,
           value: node.value
         })
       }
